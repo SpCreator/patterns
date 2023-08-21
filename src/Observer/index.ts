@@ -1,31 +1,32 @@
+// Интерфейс для наблюдателя
+interface Observer {
+    update(news: string): void;
+}
+
 // Субъект (Subject)
 class NewsPublisher {
-    constructor() {
-        this.subscribers = [];
-    }
+    private subscribers: Observer[] = [];
 
-    subscribe(observer) {
+    subscribe(observer: Observer) {
         this.subscribers.push(observer);
     }
 
-    unsubscribe(observer) {
+    unsubscribe(observer: Observer) {
         this.subscribers = this.subscribers.filter(subscriber => subscriber !== observer);
     }
 
-    notify(news) {
+    notify(news: string) {
         this.subscribers.forEach(subscriber => subscriber.update(news));
     }
 }
 
 // Наблюдатель (Observer)
-class NewsSubscriber {
-    constructor(name) {
-        this.name = name;
-    }
+class NewsSubscriber implements Observer {
+    constructor(private name: string) {}
 
-    update(news) {
-        console.log(`${this.name} received news: ${news}`);
-    }
+update(news: string) {
+    console.log(`${this.name} received news: ${news}`);
+}
 }
 
 // Использование
